@@ -29,6 +29,23 @@
     this.nodes = Array.prototype.slice.call(nodes);
   };
 
+  DomNodeCollection.prototype = {
+    html: function (arg) {
+      if (typeof html === "string") {
+        this.nodes.forEach(function (node) {
+          node.innerhtml = html;
+        });
+      } else {
+        if (this.nodes.length > 0) {
+          this.nodes[0].innerhtml = html;
+        }
+
+      }
+    },
+
+    
+
+
 
 
 
