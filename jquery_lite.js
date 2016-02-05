@@ -30,9 +30,14 @@
   };
 
   DomNodeCollection.prototype = {
-    html: function (arg) {
+    each: function (callback) {
+      this.nodes.forEach(callback);
+
+    },
+
+    html: function (html) {
       if (typeof html === "string") {
-        this.nodes.forEach(function (node) {
+        this.each(function (node) {
           node.innerhtml = html;
         });
       } else {
@@ -43,8 +48,32 @@
       }
     },
 
-    
+    empty: function () {
+      this.html("");
+    },
 
+    append: function(children) {
+      if (this.nodes.length > 0) return; //append only works for a single node
+      if (typeof children === 'object' &&
+          !(children instanceof DomNodeCollection)) {
+        children = root.$l(children);
+
+      }
+      if (typeof children === "string") {
+        this.each(function (node) {
+          node.innerhtml += children;
+        });
+      } else if (children instanceof DomNodeCollection) {
+        var node = this.nodes[0];
+        children.each(function (childNode) {
+          node.appendChild(childNode);
+        });
+      }
+    },
+
+
+
+  };
 
 
 
