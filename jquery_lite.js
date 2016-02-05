@@ -53,7 +53,7 @@
     },
 
     append: function(children) {
-      if (this.nodes.length > 0) return; //append only works for a single node
+      if (this.nodes.length > 0) return;
       if (typeof children === 'object' &&
           !(children instanceof DomNodeCollection)) {
         children = root.$l(children);
@@ -71,6 +71,33 @@
       }
     },
 
+    remove: function() {
+      this.each(function (node) {
+        node.parentNode.removeChild(node);
+      });
+    },
+
+    attr: function(key, val) {
+      if (typeof val === "string") {
+        this.each(function (node) {
+          node.setAttribute(key, val);
+        });
+      } else {
+        return this.nodes[0].getAttributes(key);
+      }
+    },
+
+    addClass: function(newClass) {
+      this.each(function (node){
+        node.classList.add(newClass);
+      });
+    }
+
+    removeClass: function(oldClass) {
+      this.each(function (node) {
+        node.classList.remove(oldClass);
+      });
+    },
 
 
   };
