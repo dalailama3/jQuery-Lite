@@ -17,7 +17,7 @@
     }
   };
 
-  window.$l = function (arg) {
+  root.$l = function (arg) {
 
     var returnValue;
     switch(typeof(arg)) {
@@ -38,6 +38,56 @@
     }
 
     return returnValue;
+  };
+
+  root.$l.extend = function(base) {
+    var otherObjs = Array.prototype.slice.call(arguments, 1);
+    otherObjs.forEach(function (obj) {
+      for (var prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+          base[prop] = obj[prop];
+        }
+      }
+    });
+    return base;
+  };
+
+  var toQueryString = function(obj) {
+    var result = "";
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) {
+        result += prop + "=" + obj[prop] + "&";
+      }
+    }
+    return result.substring(0, result.length-1); //take off last "&"
+  };
+
+
+  root.$l.ajax = function(options) {
+    var request = new XMLHttpRequest();
+    var defaults = {
+      contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+      method: "GET",
+      url: "",
+      success: function(){},
+      error: function(){},
+      data: {},
+    };
+    options = root.$l.extend(defaults, options);
+
+    if (options.method.toUpperCase() === "GET") {
+      options.url += "?" + toQueryString(options.data);
+    }
+
+    request.open(options.method, options.url, true);
+    request.onload = function (e) {
+      if (request.status === 200) {
+        options.success(request.response);
+      } else {
+        options.error(request.response);
+      }
+    };
+    request.send(JSON.stringify(options.data));
   };
 
   var getNodesFromDom = function (selector) {

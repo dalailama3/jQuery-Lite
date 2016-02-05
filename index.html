@@ -4,14 +4,28 @@
     <script src="./jquery_lite.js"></script>
   </head>
 
+  <style>
+    .my-div.row {
+      height: 100px;
+      width: 50px;
+      background: green;
+    }
+  </style>
+
 
 
   <body>
+    <script>
+     var func = function(){ alert('Hello!') };
+     $l(function(){
+       $l('.my-div.row').on('click', func);
+      });
+   </script>
 
     <h1>Jquery is cool!</h1>
 
 
-    <div class="row">
+    <div class="my-div row">
       <div class="square"></div>
       <div class="square"></div>
       <div class="square"></div>
@@ -28,14 +42,7 @@
       <div class="square"></div>
     </div>
 
-    <script>
-      var title = $l("h1");
-      title.on("click", function () {
-        title.textContent = "penis";
-      });
 
-
-    </script>
 
 
 
