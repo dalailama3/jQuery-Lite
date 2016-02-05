@@ -124,6 +124,18 @@
         foundNodes = foundNodes.concat([].slice.call(nodeList));
       });
       return new DomNodeCollection(foundNodes);
+    },
+
+    on: function(eventType, cb) {
+      this.each(function (node) {
+        node.addEventListener(eventType, cb);
+      });
+    },
+
+    off: function(eventType, cb) {
+      this.each(function (node) {
+        node.removeEventListener(eventType, cb);  
+      });
     }
 
 
