@@ -105,8 +105,10 @@
         var nodeChildren = [].slice.call(node.children);
         children = children.concat(nodeChildren);
       });
-      return children;
-    }
+      return new DomNodeCollection(children);
+    },
+
+
 
 
   };
