@@ -1,5 +1,22 @@
 (function (root) {
 
+  var docReady = false, docReadyCallbacks = [];
+
+  document.addEventListener("DOMContentLoaded", function () {
+    docReady = true;
+    docReadyCallbacks.forEach(function (callback) {
+      callback();
+    });
+  });
+
+  var queueCallbacks = function(cb) {
+    if (!docReady) {
+      docReadyCallbacks.push(cb);
+    } else {
+      cb();
+    }
+  };
+
   window.$l = function (arg) {
 
     var returnValue;
@@ -13,6 +30,11 @@
           returnValue = new DomNodeCollection([arg]);
         }
         break;
+
+      case("function"):
+        queueCallbacks(arg);
+        break;
+
     }
 
     return returnValue;
@@ -134,7 +156,7 @@
 
     off: function(eventType, cb) {
       this.each(function (node) {
-        node.removeEventListener(eventType, cb);  
+        node.removeEventListener(eventType, cb);
       });
     }
 
