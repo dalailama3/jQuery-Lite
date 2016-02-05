@@ -108,6 +108,23 @@
       return new DomNodeCollection(children);
     },
 
+    parent: function () {
+      var parents = [];
+      this.each(function (node) {
+        parents.push(node.parentNode);
+
+      });
+      return new DomNodeCollection(parents);
+    },
+
+    find: function (selector) {
+      var foundNodes = [];
+      this.each(function (node) {
+        var nodeList = node.querySelectorAll(selector);
+        foundNodes = foundNodes.concat([].slice.call(nodeList));
+      });
+      return new DomNodeCollection(foundNodes);
+    }
 
 
 
