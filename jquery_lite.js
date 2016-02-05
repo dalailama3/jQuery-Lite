@@ -91,13 +91,22 @@
       this.each(function (node){
         node.classList.add(newClass);
       });
-    }
+    },
 
     removeClass: function(oldClass) {
       this.each(function (node) {
         node.classList.remove(oldClass);
       });
     },
+
+    children: function () {
+      var children = [];
+      this.each(function (node) {
+        var nodeChildren = [].slice.call(node.children);
+        children = children.concat(nodeChildren);
+      });
+      return children;
+    }
 
 
   };
